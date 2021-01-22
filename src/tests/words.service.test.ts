@@ -5,7 +5,7 @@ describe('Testing words service', () => {
     it('empty response', async () => {
       const wordsService = new WordsService();
       const word = 'myword';
-      let res = await wordsService.getSimilarWords(word);
+      const res = await wordsService.getSimilarWords(word);
       expect(res).toStrictEqual([]);
     });
   });

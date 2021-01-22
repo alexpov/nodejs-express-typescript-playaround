@@ -17,7 +17,7 @@ describe('Testing stats route', () => {
 
     it('set total words', () => {
       const statsRoute = new StatsRoute();
-      let { statsController } = statsRoute;
+      const { statsController } = statsRoute;
       const app = new App([statsRoute]);
 
       const count = 10;
@@ -27,19 +27,20 @@ describe('Testing stats route', () => {
 
     it('add request', () => {
       const statsRoute = new StatsRoute();
-      let { statsController } = statsRoute;
+      const { statsController } = statsRoute;
       const app = new App([statsRoute]);
 
-      let reqs = [10, 20, 30, 40];
-      for (var val of reqs) {
+      const reqs = [10, 20, 30, 40];
+      for (const val of reqs) {
         statsController.addRequest(val);
-      };
-      
-      return request(app.getServer()).get(`${statsRoute.path}`).expect(
-        {
+      }
+
+      return request(app.getServer())
+        .get(`${statsRoute.path}`)
+        .expect({
           totalWords: 0,
           totalRequests: reqs.length,
-          avgProcessingTimeNs: reqs.reduce((a, v, i) => (a * i + v) / (i + 1))
+          avgProcessingTimeNs: reqs.reduce((a, v, i) => (a * i + v) / (i + 1)),
         });
     });
   });

@@ -13,7 +13,9 @@ describe('Testing similar route', () => {
       const app = new App([similarRoute]);
 
       const word = 'myword';
-      return request(app.getServer()).get(`${similarRoute.path}?word=${word}`).expect({ [word]: [] });
+      return request(app.getServer())
+        .get(`${similarRoute.path}?word=${word}`)
+        .expect({ [word]: [] });
     });
   });
 });

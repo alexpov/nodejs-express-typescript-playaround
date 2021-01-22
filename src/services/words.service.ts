@@ -6,7 +6,7 @@ class WordsService {
     return;
   }
 
-  public async getSimilarWords(word: string): Promise<String[]> {
+  public async getSimilarWords(word: string): Promise<string[]> {
     return [];
   }
 }

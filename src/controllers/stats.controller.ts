@@ -12,9 +12,9 @@ class StatsController {
   }
 
   public addRequest(processingTimeNs: number) {
-    let { _metrics } = this;
+    const { _metrics } = this;
 
-    let totalProcessingTimeNs = _metrics.totalRequests * _metrics.avgProcessingTimeNs;
+    const totalProcessingTimeNs = _metrics.totalRequests * _metrics.avgProcessingTimeNs;
 
     _metrics.totalRequests += 1;
     _metrics.avgProcessingTimeNs = (totalProcessingTimeNs + processingTimeNs) / _metrics.totalRequests;
