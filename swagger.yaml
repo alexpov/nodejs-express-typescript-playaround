@@ -1,126 +1,38 @@
 tags:
-- name: users
-  description: users API
+- name: similar
+  description: Similar words API
+
+- name: stats
+  description: Similar words API usage statistics
 
 paths:
-# [GET] users
-  /users:
+  /api/v1/similar:
     get:
       tags:
-      - users
-      summary: Find All Users
+      - similar
+      summary: Find similar words
+      parameters:
+        - in: query
+          name: word
+          schema:
+            type: string
+          required: true
+          description: Word to use for similar lookup
       responses:
         200:
-          description: 'OK'
-        500:
-          description: 'Server Error'
-
-# [POST] users
-    post:
-      tags:
-      - users
-      summary: Add User
-      parameters:
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
-      responses:
-        201:
-          description: 'Created'
+          description: Similar words JSON object
         400:
-          description: 'Bad Request'
-        409:
-          description: 'Conflict'
+          description: Bad query input
         500:
           description: 'Server Error'
 
-# [GET] users/id
-  /users/{id}:
+  /api/v1/stats:
     get:
       tags:
-      - users
-      summary: Find User By Id
-      parameters:
-      - name: id
-        in: path
-        description: User Id
-        required: true
-        type: integer
+      - stats
+      summary: Display similar words API usage statistics
       responses:
         200:
-          description: 'OK'
-        409:
-          description: 'Conflict'
+          description: Statistics JSON object
         500:
-          description: 'Server Error'
-
-# [PUT] users/id
-    put:
-      tags:
-      - users
-      summary: Update User By Id
-      parameters:
-      - name: id
-        in: path
-        description: user Id
-        required: true
-        type: integer
-      - name: body
-        in: body
-        description: user Data
-        required: true
-        schema:
-          $ref: '#/definitions/users'
-      responses:
-        200:
-          description: 'OK'
-        400:
-          description: 'Bad Request'
-        409:
-          description: 'Conflict'
-        500:
-          description: 'Server Error'
-
-# [DELETE] users/id
-    delete:
-      tags:
-      - users
-      summary: Delete User By Id
-      parameters:
-      - name: id
-        in: path
-        description: user Id
-        required: true
-        type: integer
-      responses:
-        200:
-          description: 'OK'
-        409:
-          description: 'Conflict'
-        500:
-          description: 'Server Error'
-
-# definitions
-definitions:
-  users:
-    type: object
-    required:
-        - email
-        - password
-    properties:
-      id:
-        type: integer
-        description: user Id
-      email:
-        type: string
-        description: user Email
-      password:
-        type: string
-        description: user Password
-
-schemes:
- - https
- - http
+          description: Server Error

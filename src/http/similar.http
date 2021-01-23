@@ -1,9 +1,0 @@
-# Similar API
-
-###
-# baseURL
-@baseURL = http://localhost:8000/api/v1/similar
-
-###
-# Get similiar words
-GET {{baseURL}}
