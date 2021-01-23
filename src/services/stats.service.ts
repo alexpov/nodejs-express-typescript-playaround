@@ -1,4 +1,6 @@
 class StatsService {
+  public static NS_PER_SEC = 1e9;
+
   private _stats = {
     totalWords: 0,
     totalRequests: 0,
@@ -9,13 +11,24 @@ class StatsService {
     this._stats.totalWords = totalWords;
   }
 
-  public addRequest(processingTimeNs: number) {
+  /**
+   * Update stats with new request data
+   * @param processingTimeNs time object returned by process.hrtime
+   */
+  public addRequest(processingTimeNs: [number, number]) {
     const { _stats } = this;
 
+    /* Based on: https://nodejs.org/docs/latest-v11.x/api/process.html
+     * The process.hrtime() method returns the current high-resolution real time in a [seconds, nanoseconds]
+     * tuple Array, where nanoseconds is the remaining part of the real time that can't be represented in second
+     * precision.
+     */
+    const diffNs = processingTimeNs[0] * StatsService.NS_PER_SEC + processingTimeNs[1];
     const totalProcessingTimeNs = _stats.totalRequests * _stats.avgProcessingTimeNs;
 
     _stats.totalRequests += 1;
-    _stats.avgProcessingTimeNs = (totalProcessingTimeNs + processingTimeNs) / _stats.totalRequests;
+
+    _stats.avgProcessingTimeNs = (totalProcessingTimeNs + diffNs) / _stats.totalRequests;
   }
 
   public getStats() {

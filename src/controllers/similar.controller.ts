@@ -18,11 +18,15 @@ class SimilarController {
       if (!isValid(word)) {
         throw new HttpException(400, "Must provide 'word' query paramter");
       }
+      const start = process.hrtime();
 
       const similar = await this._similarWordsService.getSimilarWords(word as string);
-      console.debug(`similar words for '${word}' -> '${JSON.stringify(similar)}'`);
       res.json({ [word as string]: similar });
-      StatsService.getInstance().addRequest(1);
+
+      let diff = process.hrtime(start);
+      console.debug(`similar words for '${word}' -> '${JSON.stringify(similar)}'`);
+
+      StatsService.getInstance().addRequest(diff);
     } catch (error) {
       next(error);
     }
