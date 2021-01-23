@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from 'express';
 import SimilarWordsService from '../services/similar-words.service';
 
-class StatsController {
+class SimilarController {
   private _similarWordsService = new SimilarWordsService();
 
   public similar = async (req: Request, res: Response, next: NextFunction) => {
@@ -16,4 +16,4 @@ class StatsController {
   };
 }
 
-export default StatsController;
+export default SimilarController;
