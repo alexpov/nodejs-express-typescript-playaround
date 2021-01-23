@@ -41,6 +41,11 @@ class Trie {
    * Initialize trie with dictionary of english words
    */
   private _initWordsDict() {
+    if (process.env.DICTIONARY_FILE_NAME === undefined) {
+      // TODO this should be handled by mocks in test env
+      return;
+    }
+
     logger.info(`Initializing words dictionary, using file ${process.env.DICTIONARY_FILE_NAME}`);
 
     logger.warn('Words dictionary parsing logic doesn"t validate nor normialize the dictionary words. Its usses \'new line\' as words seperatore');

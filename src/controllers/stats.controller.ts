@@ -1,28 +1,10 @@
 import { NextFunction, Request, Response } from 'express';
+import StatsService from '../services/stats.service';
 
 class StatsController {
-  private _metrics = {
-    totalWords: 0,
-    totalRequests: 0,
-    avgProcessingTimeNs: 0,
-  };
-
-  public setTotalWords(totalWords: number) {
-    this._metrics.totalWords = totalWords;
-  }
-
-  public addRequest(processingTimeNs: number) {
-    const { _metrics } = this;
-
-    const totalProcessingTimeNs = _metrics.totalRequests * _metrics.avgProcessingTimeNs;
-
-    _metrics.totalRequests += 1;
-    _metrics.avgProcessingTimeNs = (totalProcessingTimeNs + processingTimeNs) / _metrics.totalRequests;
-  }
-
   public stats = (req: Request, res: Response, next: NextFunction): void => {
     try {
-      res.json(this._metrics);
+      res.json(StatsService.getInstance().getStats());
     } catch (error) {
       next(error);
     }
