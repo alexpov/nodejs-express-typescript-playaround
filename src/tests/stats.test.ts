@@ -22,7 +22,6 @@ describe('Testing stats route', () => {
       StatsService.getInstance().reset();
 
       const statsRoute = new StatsRoute();
-      const { statsController } = statsRoute;
       const app = new App([statsRoute]);
 
       const count = 10;
@@ -34,12 +33,11 @@ describe('Testing stats route', () => {
       StatsService.getInstance().reset();
 
       const statsRoute = new StatsRoute();
-      const { statsController } = statsRoute;
       const app = new App([statsRoute]);
 
       const reqs = [10, 20, 30, 40];
       for (const val of reqs) {
-        StatsService.getInstance().addRequest(val);
+        StatsService.getInstance().addRequest([val, 0]);
       }
 
       return request(app.getServer())
@@ -47,7 +45,7 @@ describe('Testing stats route', () => {
         .expect({
           totalWords: 0,
           totalRequests: reqs.length,
-          avgProcessingTimeNs: reqs.reduce((a, v, i) => (a * i + v) / (i + 1)),
+          avgProcessingTimeNs: reqs.reduce((a, v, i) => (a * i + v) / (i + 1)) * 1e9,
         });
     });
   });

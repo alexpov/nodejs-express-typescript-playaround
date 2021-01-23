@@ -18,13 +18,14 @@ class SimilarController {
       if (!isValid(word)) {
         throw new HttpException(400, "Must provide 'word' query paramter");
       }
+
+      // TODO: consider to do it on middleware level
       const start = process.hrtime();
 
       const similar = await this._similarWordsService.getSimilarWords(word as string);
       res.json({ [word as string]: similar });
 
-      let diff = process.hrtime(start);
-      console.debug(`similar words for '${word}' -> '${JSON.stringify(similar)}'`);
+      const diff = process.hrtime(start);
 
       StatsService.getInstance().addRequest(diff);
     } catch (error) {

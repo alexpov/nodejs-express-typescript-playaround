@@ -36,7 +36,7 @@ class StatsService {
   }
 
   public reset() {
-    for (let prop in this._stats) {
+    for (const prop in this._stats) {
       this._stats[prop] = 0;
     }
   }
@@ -47,7 +47,7 @@ class Singleton {
 
   private constructor() {}
 
-  // TODO not the best idea to use singleton here
+  // TODO not the best idea to use singleton here, doesn"t play well with test. Should consider managing it on app level
   public static getInstance(): StatsService {
     if (!Singleton._instance) {
       Singleton._instance = new StatsService();

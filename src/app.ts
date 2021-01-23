@@ -1,10 +1,6 @@
-import cookieParser from 'cookie-parser';
 import cors from 'cors';
 import express from 'express';
-import helmet from 'helmet';
-import hpp from 'hpp';
 import morgan from 'morgan';
-import compression from 'compression';
 import swaggerUi from 'swagger-ui-express';
 import swaggerJSDoc from 'swagger-jsdoc';
 import Routes from './interfaces/routes.interface';
@@ -59,9 +55,9 @@ class App {
     const options = {
       swaggerDefinition: {
         info: {
-          title: 'REST API',
+          title: 'Similar words REST API',
           version: '1.0.0',
-          description: 'Example docs',
+          description: 'Public REST API of similar words service',
         },
       },
       apis: ['swagger.yaml'],

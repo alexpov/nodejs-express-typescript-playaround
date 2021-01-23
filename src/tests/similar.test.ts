@@ -17,5 +17,9 @@ describe('Testing similar route', () => {
         .get(`${similarRoute.path}?word=${word}`)
         .expect({ [word]: [] });
     });
+
+    it('legit response', () => {
+      // TODO add few more tests here
+    });
   });
 });
