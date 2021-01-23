@@ -49,7 +49,8 @@ class Trie {
     logger.info(`Initializing words dictionary, using file ${process.env.DICTIONARY_FILE_NAME}`);
 
     logger.warn("Words dictionary parsing logic doesn\"t validate nor normialize the dictionary words. Its usses 'new line' as words seperatore");
-    const dictPath = path.join(__dirname, process.env.DICTIONARY_FILE_NAME);
+    // TODO should make path resolve more robust
+    const dictPath = path.join(__dirname, '..', '..', process.env.DICTIONARY_FILE_NAME);
     const words = fs.readFileSync(dictPath).toString().replace(/\r\n/g, '\n').split('\n');
     for (const w of words) {
       this.add(w);
