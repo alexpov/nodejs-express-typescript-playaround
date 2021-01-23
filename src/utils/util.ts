@@ -11,3 +11,11 @@ export const isEmpty = (value: any): boolean => {
     return false;
   }
 };
+
+export const sortStrAlphabet = (str: string): string => {
+  return [...str].sort().join('');
+};
+
+export const isValid = (value: any): boolean => {
+  return value !== null && value !== undefined;
+};
