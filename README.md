@@ -1,16 +1,16 @@
 # Prisma HW - SImilar words service
 
 ## General notes
-- Used https://github.com/ljlm0402/typescript-express-starter as starter code. I cleaned some not relevant configs but there are still leftovers. For example, I didn't touch the install packages defined in package.json
-- Using NodeJs v14 + express on TypeScript
-- Can run the service locally using npm and docker
-- Using Swagger for API documentation, add basic documentation
+- I used https://github.com/ljlm0402/typescript-express-starter as starter code. I cleaned some irrelevant configs but there are still leftovers. For example, I didn't touch the installed packages defined in package.json
+- Using NodeJs v14 + express + TypeScript
+- Can run the service locally using nodejs + npm or Docker container
+- Using Swagger for API documentation, I added basic documentation
 
 ## Implementation details
 
 ### Algorithm
-When service starts, doing dictionary pre-processing. This improves segnificantly similar word lookup performance since it will do lookup operations in memory.
-I provided (and tested) 2 different pre-processing data structures. First is based on Trie, Second is based on Map.
+When service starts, doing dictionary pre-processing. This improves significantly similar word lookup performance since it will do lookup operations in memory.
+I provided (and tested) 2 different pre-processing data structures. First is based on Trie, Second is based on Javascript standard Map.
 
 Insert word to dictionary operation:
 - sort word alphabetically
@@ -25,7 +25,9 @@ Lookup similar words operation:
 
 Sorting word alphabetically since all similar words will have same form when sorted alphabetically, hance sorted word is used as key in the pre-processing data structures.
 
-I described pros/cons of Map vs Trie in `src/services/similar-words.service.ts`. By default using the Map based implementation. See also performance test metrics bellow.
+I described pros/cons of Map vs Trie in `src/services/similar-words.service.ts`.
+
+Following performance and memory metrics I measured, by default using the Map based implementation.
 
 
 ### Testing:
@@ -41,7 +43,7 @@ info: Process memory usage: {"rss":"153.93 MB -> Resident Set Size - total memor
 
 I tested both Map and Trie for the provided dictionary. Map option provided better results. Potential explanation is in `src/services/similar-words.service.ts`
 
-Results I had (windows)
+Results I had (Windows)
 ```
 Map:
 
@@ -67,18 +69,17 @@ info: Process memory usage:
 
 #### Lookup performance
 
-I used `src/pref-test.js` to run lookup tests. Basing on avarage lookup time statistic `avgProcessingTimeNs`
+I used `src/pref-test.js` to run lookup tests. Using `avgProcessingTimeNs` stats for comparison.
 
-*NOTE:* The script is windows based, it won't work on linux, need to do import adjustments ...
+*NOTE:* The script is windows based, it won't work on linux
 
-The script runs 400 request using node-fetch. The request are executed using promises asynchronously.
-While testing, I executed the script several times.
+The script runs 400 request using node-fetch. The request are executed using promises asynchronously. While testing, I executed the script several times.
 
 In general, Map preformed a bit faster. However, after execution of multiple requests, the results were close.
 
 Would be happy to descuss the results during review. I described few related keynotes in `src/services/similar-words.service.ts`.
 
-Results I had (windows)
+Results I had (Windows)
 
 ```
 Lookup: Running the perf-script 5 times, each time it executes 400 async requests
@@ -114,6 +115,7 @@ Trie:
 }
 ```
 
+*NOTE:* Just to state the obvious, it a POC perf test, mainly to check service stability. It does not represent real lookup patterns nor real workloads. Need to more extensive tests to conclude something of value in regards to performance behavior of this service. 
 
 ## How to run using Docker
 

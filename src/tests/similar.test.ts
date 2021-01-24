@@ -18,8 +18,7 @@ describe('Testing similar route', () => {
         .expect({ [word]: [] });
     });
 
-    it('legit response', () => {
-      // TODO add few more tests here
-    });
+    // TODO add few more tests here
+    it('legit response', () => {});
   });
 });

@@ -4,36 +4,35 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 /**
- * NOTE regarding the existing implementation:
+ * This service has 2 different implementations. First relies on Trie data structures (SimilarWordsServiceTrie). Second relies on Map data structure (SimilarWordsServiceMap).
  *
- * This service has 2 different implementations, First relies on Trie data structures (SimilarWordsServiceTrie).
- * Second relies on HasMap data structure (SimilarWordsServiceMap).
- *
- * In general, for both memory and lookup performance, there are better options out there to consider, for example TSTs.
- * However, all are effected by the dictionary input and look patterns
+ * In general, for both memory and lookup performance, there are potentially better options out there to consider, for example TSTs, HashMaps.
+ * However, all are effected by the dictionary input type and lookup patterns.
  *
  * In general, pros and cons of Trie vs the Map in the provided implementations
  * - Memory: 
  *    Trie might provides better memory consumption since it re-uses common words prefix but its very dependant on the input words.
- *    On the contrary, using trie might allocate more pages in memory since its data less packed (keys stored not in continuous manner)
- *    Hence it might be memory intensive
+ *    On the contrary, using trie might allocate more pages in memory since its data is scattered (keys stored not in continuous manner).
+ *    Hence it might be memory intensive.
+ * 
+ *    If memory is an issue, can check TSTs and varius compression techniques.
  *
  * - Lookup performance: 
  *    In general, both options are O(k), when k is the length of the lookup word.
  *
  *    For lookup pattern that faivors existing words lookup (like on our 'english dicitionary words case'),
- *    HashMap will utilize CPU cache line better compared to the Trie since the lookup word will be continuous
- *    memory, hence (most likelly) the lookup operations will done based on CPU l1,L2,L3 caches which a magnitute faster
- *    vs memory access. For more info read cold/hot memroy and CPU cache lines
+ *    Map will utilize CPU cache line better compared to the Trie since the lookup word will be in continuous
+ *    memory, hence (most likelly) Map will utilize CPU L1,L2,L3 cache more effectivly. Note, opertaion in CPU cache are a magnitute faster
+ *    vs. memory access.
  *
- *    For lookup patterns that faivor non-existing words lookup, Trie might provide better performance since its check letter
- *    by letter, meaning, ithas a high chance of stopping the search before reading the whole input string
+ *    For lookup patterns that faivor non-existing words lookup, Trie might provide better performance since it checks letter
+ *    by letter, meaning, it has a high chance of stopping the search before reading the whole input string.
+ * 
+ *    NOTE: JavaScript Map probably similar to the cpp Map. The cpp unordered_map is more relevant here since the insertion order is not relevant.
+ *          I didn't find built in HashMap in Javascript, hence used Map.
  *
- * Current case is 'english dicitionary words case', hence, most likelly, lookup will result inexisting words + currently favoring lookup
- * performance over memory consumption hence using the Map based implementation as default
+ * Current case is 'english dicitionary words case', hence, most likelly, lookup will result in existing words. Hence using the Map based implementation as default.
  *
- * To improve memory usage, can consider compressing the dictionary words, however it will effect lookup performance and for some input types
- * might not be relevant
  */
 
 const initWordsDict = (service: any) => {
@@ -51,14 +50,7 @@ const initWordsDict = (service: any) => {
   logger.info(`Initializing dictionary done`);
 };
 class TrieNode {
-  /**
-   * Trie node letter (key)
-   */
   public letter: string = null;
-
-  /**
-   * Map between letter to next trie node
-   */
   public children: Map<string, TrieNode> = null;
 
   /**

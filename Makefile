@@ -3,4 +3,4 @@ build:
 clean:
 	docker rmi -f ${tag}
 run:
-	docker run -d -p ${port}:${port} --name ${name} ${tag}
+	docker run --rm -d -p ${port}:${port} --name ${name} ${tag}
