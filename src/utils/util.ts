@@ -19,3 +19,16 @@ export const sortStrAlphabet = (str: string): string => {
 export const isValid = (value: any): boolean => {
   return value !== null && value !== undefined;
 };
+
+export const getProcessMemoryUsage = (): any => {
+  const memoryData = process.memoryUsage();
+
+  const formatMemmoryUsage = (data: any) => `${Math.round((data / 1024 / 1024) * 100) / 100} MB`;
+
+  return {
+    rss: `${formatMemmoryUsage(memoryData.rss)} -> Resident Set Size - total memory allocated for the process execution`,
+    heapTotal: `${formatMemmoryUsage(memoryData.heapTotal)} -> total size of the allocated heap`,
+    heapUsed: `${formatMemmoryUsage(memoryData.heapUsed)} -> actual memory used during the execution`,
+    external: `${formatMemmoryUsage(memoryData.external)} -> V8 external memory`,
+  };
+};

@@ -4,6 +4,7 @@ import StatsRoute from './routes/stats.route';
 import SimilarRoute from './routes/similar.route';
 import validateEnv from './utils/validateEnv';
 import { logger } from './utils/logger';
+import { getProcessMemoryUsage } from './utils/util';
 
 validateEnv();
 
@@ -15,4 +16,5 @@ process.on('uncaughtException', function (e) {
 
 const app = new App([new StatsRoute(), new SimilarRoute()]);
 
+logger.info('Process memory usage:', getProcessMemoryUsage());
 app.listen();
