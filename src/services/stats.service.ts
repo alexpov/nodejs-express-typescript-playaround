@@ -24,8 +24,14 @@ class StatsService {
      * precision.
      */
     const diffNs = processingTimeNs[0] * StatsService.NS_PER_SEC + processingTimeNs[1];
+
+    // no need for total, can use the cumulative moving average (CMA) equation.
     const totalProcessingTimeNs = _stats.totalRequests * _stats.avgProcessingTimeNs;
 
+    // potentially, in C like language, u64 can overflow here
+    // consider storing arr of windows, each window has X requests in valid range, or maybe time frame (like 1 day), the earlier of both conditions
+    // the total requests, probably should be handled as string, to conmpensate the overflow
+    // NOTE: in JS it might be not an issue, need to learn how numbers are handled
     _stats.totalRequests += 1;
 
     _stats.avgProcessingTimeNs = (totalProcessingTimeNs + diffNs) / _stats.totalRequests;

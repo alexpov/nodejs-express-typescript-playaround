@@ -170,17 +170,25 @@ class SimilarWordsServiceMap {
   }
 
   public async addWord(word: string): Promise<void> {
-    const keyWord = sortStrAlphabet(word);
+    const keyWord = sortStrAlphabet(word); // o(klogk) dict fixed size thus sorting can be -> o(k)
+
+    // o(k)
     if (this._wordsDict.has(keyWord)) {
-      let arr = this._wordsDict.get(keyWord);
+      let arr = this._wordsDict.get(keyWord); // o(k)
       if (!arr.includes(word)) {
-        arr.push(word);
+       
+        // let m be number of word in the list o(m*k)  assuming o(m) ~ o(1)
+        arr.push(word); // o(1)
         this._wordsCount += 1;
       }
     } else {
       this._wordsDict.set(keyWord, [word]);
       this._wordsCount += 1;
     }
+
+    // let n be the number of words in the dict
+    //
+    // o((k * n)
   }
 
   public async getSimilarWords(word: string): Promise<string[]> {
