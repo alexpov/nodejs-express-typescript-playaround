@@ -1,4 +1,4 @@
-# Similar words service, 
+# Similar words service
 
 ## General notes
 - Its a learning project, just to play arround with with Nodejs & TypeScript
