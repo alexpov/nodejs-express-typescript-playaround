@@ -3,38 +3,6 @@ import { sortStrAlphabet } from '../utils/util';
 import * as fs from 'fs';
 import * as path from 'path';
 
-/**
- * This service has 2 different implementations. First relies on Trie data structures (SimilarWordsServiceTrie). Second relies on Map data structure (SimilarWordsServiceMap).
- *
- * In general, for both memory and lookup performance, there are potentially better options out there to consider, for example TSTs, HashMaps.
- * However, all are effected by the dictionary input type and lookup patterns.
- *
- * In general, pros and cons of Trie vs the Map in the provided implementations
- * - Memory: 
- *    Trie might provides better memory consumption since it re-uses common words prefix but its very dependant on the input words.
- *    On the contrary, using trie might allocate more pages in memory since its data is scattered (keys stored not in continuous manner).
- *    Hence it might be memory intensive.
- * 
- *    If memory is an issue, can check TSTs and varius compression techniques.
- *
- * - Lookup performance: 
- *    In general, both options are O(k), when k is the length of the lookup word.
- *
- *    For lookup pattern that faivors existing words lookup (like on our 'english dicitionary words case'),
- *    Map will utilize CPU cache line better compared to the Trie since the lookup word will be in continuous
- *    memory, hence (most likelly) Map will utilize CPU L1,L2,L3 cache more effectivly. Note, opertaion in CPU cache are a magnitute faster
- *    vs. memory access.
- *
- *    For lookup patterns that faivor non-existing words lookup, Trie might provide better performance since it checks letter
- *    by letter, meaning, it has a high chance of stopping the search before reading the whole input string.
- * 
- *    NOTE: JavaScript Map probably similar to the cpp Map. The cpp unordered_map is more relevant here since the insertion order is not relevant.
- *          I didn't find built in HashMap in Javascript, hence used Map.
- *
- * Current case is 'english dicitionary words case', hence, most likelly, lookup will result in existing words. Hence using the Map based implementation as default.
- *
- */
-
 const initWordsDict = (service: any) => {
   if (process.env.DICTIONARY_FILE_NAME === undefined) {
     // TODO this should be handled by mocks in test env
