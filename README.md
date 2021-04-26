@@ -1,7 +1,8 @@
-# Similar words service, playarround with nodejs & typescrit
+# Similar words service, 
 
 ## General notes
-- I used https://github.com/ljlm0402/typescript-express-starter as starter code.
+- Its a learning project, just to play arround with with Nodejs & TypeScript
+- I used https://github.com/ljlm0402/typescript-express-starter as starter code
 - Using NodeJs v14 + express + TypeScript
 - Can run the service locally using nodejs + npm or Docker container
 - Using Swagger for API documentation
