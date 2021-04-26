@@ -1,10 +1,10 @@
-# Prisma HW - SImilar words service
+# Similar words service, playarround with nodejs & typescrit
 
 ## General notes
-- I used https://github.com/ljlm0402/typescript-express-starter as starter code. I cleaned some irrelevant configs but there are still leftovers. For example, I didn't touch the installed packages defined in package.json
+- I used https://github.com/ljlm0402/typescript-express-starter as starter code.
 - Using NodeJs v14 + express + TypeScript
 - Can run the service locally using nodejs + npm or Docker container
-- Using Swagger for API documentation, I added basic documentation
+- Using Swagger for API documentation
 
 ## Implementation details
 
@@ -15,7 +15,7 @@ I provided (and tested) 2 different pre-processing data structures. First is bas
 Insert word to dictionary operation:
 - sort word alphabetically
 - insert to the container (Map or Trie)
-- store as value the orinal word
+- store as value the original word
 - values stored as an arrays of distict words as requred in `http://localhost:8000/api/v1/similar` REST API
 
 Lookup similar words operation:
@@ -24,8 +24,6 @@ Lookup similar words operation:
 - before returning the similar words array, remove the input word from the array (no-op if its not in the array)
 
 Sorting word alphabetically since all similar words will have same form when sorted alphabetically, hance sorted word is used as key in the pre-processing data structures.
-
-I described pros/cons of Map vs Trie in `src/services/similar-words.service.ts`.
 
 Following performance and memory metrics I measured, by default using the Map based implementation.
 
@@ -76,8 +74,6 @@ I used `src/pref-test.js` to run lookup tests. Using `avgProcessingTimeNs` stats
 The script runs 400 request using node-fetch. The request are executed using promises asynchronously. While testing, I executed the script several times.
 
 In general, Map preformed a bit faster. However, after execution of multiple requests, the results were close.
-
-Would be happy to descuss the results during review. I described few related keynotes in `src/services/similar-words.service.ts`.
 
 Results I had (Windows)
 
